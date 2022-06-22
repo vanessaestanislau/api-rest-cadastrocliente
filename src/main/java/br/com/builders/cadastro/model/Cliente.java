@@ -22,15 +22,17 @@ public class Cliente {
 	private LocalDate dataNascimento;
 	private String telefone;
 	private String email;
-	
-	
+
 	public Cliente() {
-		
+
 	}
-	
-	public Cliente(String nome, String cpf) {
+
+	public Cliente(String nome, String cpf, LocalDate dataNascimento, String telefone, String email) {
 		this.nome = nome;
 		this.cpf = cpf;
+		this.dataNascimento = dataNascimento;
+		this.telefone = telefone;
+		this.email = email;
 	}
 
 	public Long getId() {

@@ -53,8 +53,10 @@ public class ClienteForm { //aqui defino quais campos irão chegar do cliente
 		this.email = email;
 	}
 
-	public Cliente converter(ClienteRepository repository) {		
-		return new Cliente(nome, cpf);
+	//mét para converter dados que chegam no form em um objeto tipo cliente
+	public Cliente converter(ClienteRepository clienteRepository) { 	
+	//	Cliente cliente = clienteRepository.findByNome(nome);
+		return new Cliente(nome, cpf, dataNascimento, telefone, email);
 	}
 
 }
