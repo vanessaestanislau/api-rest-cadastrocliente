@@ -1,14 +1,20 @@
 package br.com.builders.cadastro.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Cliente {
 
 	@Id
@@ -16,21 +22,20 @@ public class Cliente {
 	private Long id;
 	private String nome;
 	private String cpf;
-	@Column(name = "datacadastro")
-	private LocalDate dataCadastro = LocalDate.now();
-	@Column(name = "datanascimento")
-	private LocalDate dataNascimento;
+	@CreatedDate
+	@Column(nullable = false, updatable = false)
+	private LocalDateTime cadastro;
+	private LocalDate nascimento;
 	private String telefone;
 	private String email;
 
 	public Cliente() {
-
 	}
 
-	public Cliente(String nome, String cpf, LocalDate dataNascimento, String telefone, String email) {
+	public Cliente(String nome, String cpf, LocalDate nascimento, String telefone, String email) {
 		this.nome = nome;
 		this.cpf = cpf;
-		this.dataNascimento = dataNascimento;
+		this.nascimento = nascimento;
 		this.telefone = telefone;
 		this.email = email;
 	}
@@ -59,20 +64,21 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 
-	public LocalDate getDataCadastro() {
-		return dataCadastro;
+
+	public LocalDateTime getCadastro() {
+		return cadastro;
 	}
 
-	public void setDataCadastro(LocalDate dataCadastro) {
-		this.dataCadastro = dataCadastro;
+	public void setCadastro(LocalDateTime cadastro) {
+		this.cadastro = cadastro;
 	}
 
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
+	public LocalDate getNascimento() {
+		return nascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setNascimento(LocalDate nascimento) {
+		this.nascimento = nascimento;
 	}
 
 	public String getTelefone() {
