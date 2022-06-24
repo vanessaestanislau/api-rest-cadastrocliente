@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.persistence.Column;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.domain.Page;
 
 import br.com.builders.cadastro.model.Cliente;
 
@@ -59,8 +60,8 @@ public class ClienteDto {
 		return cadastro;
 	}
 
-	public static List<ClienteDto> converter(List<Cliente> clientes) {
-		return clientes.stream().map(ClienteDto::new).collect(Collectors.toList());
+	public static Page<ClienteDto> converter(Page<Cliente> clientes) {
+		return clientes.map(ClienteDto::new);
 	}
 
 }

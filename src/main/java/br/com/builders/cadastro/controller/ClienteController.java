@@ -2,10 +2,15 @@ package br.com.builders.cadastro.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,16 +36,18 @@ public class ClienteController {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
-	// service?
 
-	// todos os verbos http:
 	@GetMapping
-	public List<ClienteDto> lista(String nome) {
-		if (nome == null) { // sem filtro: chamo findAll
-			List<Cliente> clientes = clienteRepository.findAll();
+	public Page<ClienteDto> lista(@RequestParam(required = false) String nome, @RequestParam int pagina,
+			@RequestParam int qtd) {
+
+		Pageable paginacao = PageRequest.of(pagina, qtd);
+
+		if (nome == null) {
+			Page<Cliente> clientes = clienteRepository.findAll(paginacao);
 			return ClienteDto.converter(clientes);
 		} else {
-			List<Cliente> clientes = clienteRepository.findByNome(nome);
+			Page<Cliente> clientes = clienteRepository.findByNome(nome, paginacao);
 			return ClienteDto.converter(clientes);
 		}
 	}
@@ -56,25 +63,35 @@ public class ClienteController {
 	}
 
 	@GetMapping("/{id}")
-	public ClienteDto detalhar(@PathVariable Long id) {
-		Cliente cliente = clienteRepository.getReferenceById(id);
-		return new ClienteDto(cliente);
+	public ResponseEntity<ClienteDto> detalhar(@PathVariable Long id) {
+		Optional<Cliente> cliente = clienteRepository.findById(id);
+		if (cliente.isPresent()) {
+			return ResponseEntity.ok(new ClienteDto(cliente.get()));
+		}
+		return ResponseEntity.notFound().build();
 	}
-	
+
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<ClienteDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizacaoClienteForm form) {
-		Cliente cliente = form.atualizar(id, clienteRepository);
-	
-		return ResponseEntity.ok(new ClienteDto(cliente));
+	public ResponseEntity<ClienteDto> atualizar(@PathVariable Long id,
+			@RequestBody @Valid AtualizacaoClienteForm form) {
+		Optional<Cliente> optional = clienteRepository.findById(id);
+		if (optional.isPresent()) {
+			Cliente cliente = form.atualizar(id, clienteRepository);
+			return ResponseEntity.ok(new ClienteDto(cliente));
+		}
+		return ResponseEntity.notFound().build();
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		clienteRepository.deleteById(id);
-		return ResponseEntity.ok().build();
-
+		Optional<Cliente> optional = clienteRepository.findById(id);
+		if (optional.isPresent()) {
+			clienteRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
-	
+
 }
