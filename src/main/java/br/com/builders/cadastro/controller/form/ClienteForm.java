@@ -71,7 +71,6 @@ public class ClienteForm {
 		this.email = email;
 	}
 
-	//mét para converter dados que chegam no form em um objeto tipo cliente
 	public Cliente converter(ClienteRepository clienteRepository) { 	
 		return new Cliente(nome, cpf, nascimento, telefone, email);
 	}

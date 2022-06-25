@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,19 +38,11 @@ public class ClienteController {
 	@Autowired
 	private ClienteRepository clienteRepository;
 
-	@GetMapping
-	public Page<ClienteDto> lista(@RequestParam(required = false) String nome, @RequestParam int pagina,
-			@RequestParam int qtd) {
+	@GetMapping 
+	public Page<ClienteDto> lista(@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 5) Pageable paginacao) {
 
-		Pageable paginacao = PageRequest.of(pagina, qtd);
-
-		if (nome == null) {
-			Page<Cliente> clientes = clienteRepository.findAll(paginacao);
-			return ClienteDto.converter(clientes);
-		} else {
-			Page<Cliente> clientes = clienteRepository.findByNome(nome, paginacao);
-			return ClienteDto.converter(clientes);
-		}
+		Page<Cliente> clientes = clienteRepository.findAll(paginacao);
+		return ClienteDto.converter(clientes);
 	}
 
 	@PostMapping
@@ -63,7 +56,7 @@ public class ClienteController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ClienteDto> detalhar(@PathVariable Long id) {
+	public ResponseEntity<ClienteDto> consultarPorId(@PathVariable Long id) {
 		Optional<Cliente> cliente = clienteRepository.findById(id);
 		if (cliente.isPresent()) {
 			return ResponseEntity.ok(new ClienteDto(cliente.get()));
@@ -71,6 +64,16 @@ public class ClienteController {
 		return ResponseEntity.notFound().build();
 	}
 
+	@GetMapping("/cpf/{cpf}")
+	public ResponseEntity<ClienteDto> consultarPorCpf(@PathVariable String cpf) {
+		Optional<Cliente> cliente = clienteRepository.findByCpf(cpf);
+		if (cliente.isPresent()) {
+			return ResponseEntity.ok(new ClienteDto(cliente.get()));
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+		
 	@PutMapping("/{id}")
 	@Transactional
 	public ResponseEntity<ClienteDto> atualizar(@PathVariable Long id,
