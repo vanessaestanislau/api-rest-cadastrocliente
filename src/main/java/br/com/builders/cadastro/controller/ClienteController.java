@@ -39,7 +39,7 @@ public class ClienteController {
 	private ClienteRepository clienteRepository;
 
 	@GetMapping 
-	public Page<ClienteDto> lista(@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 5) Pageable paginacao) {
+	public Page<ClienteDto> listar(@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 5) Pageable paginacao) {
 
 		Page<Cliente> clientes = clienteRepository.findAll(paginacao);
 		return ClienteDto.converter(clientes);
