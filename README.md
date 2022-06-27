@@ -1,8 +1,6 @@
 <h1 align="center"> API Rest Cadastro de Clientes (MVP - Builders) </h1>
-![logobuilders](https://user-images.githubusercontent.com/94504510/175981350-0231db84-dd68-4417-86a0-72adbbb73a62.jpg)
 
-
-## Descrição
+## ✔️ Descrição
 Trata-se de um MVP de uma API Rest para cadastro de clientes. 
 
 ## ✔️ Funcionalidades
@@ -23,7 +21,6 @@ Trata-se de um MVP de uma API Rest para cadastro de clientes.
 - ``Swagger``
 
 ## ✔️ Acesso à documentação
-
 Na pasta postman, encontra-se disponibilizada a collection ClienteAPI com os testes do Postman, bem como o arquivo "documentacao" onde se encontra o acesso à documentação.
  
 
