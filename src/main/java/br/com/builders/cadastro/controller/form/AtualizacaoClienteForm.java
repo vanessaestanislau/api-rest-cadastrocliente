@@ -1,7 +1,6 @@
 package br.com.builders.cadastro.controller.form;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 import br.com.builders.cadastro.model.Cliente;
 import br.com.builders.cadastro.repository.ClienteRepository;

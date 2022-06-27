@@ -3,12 +3,7 @@ package br.com.builders.cadastro.controller.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Page;
 
 import br.com.builders.cadastro.model.Cliente;
