@@ -1,5 +1,5 @@
 <h1 align="center"> API Rest Cadastro de Clientes (MVP - Builders) </h1>
-![Logotipo empresa Builders](https://user-images.githubusercontent.com/94504510/175967160-8708d248-0568-4bfb-b1fa-cf9bcf457c2e.jpg)
+![logobuilders](https://user-images.githubusercontent.com/94504510/175981350-0231db84-dd68-4417-86a0-72adbbb73a62.jpg)
 
 
 ## Descrição
